@@ -68,6 +68,7 @@ end
 t = D.CABS.t;
 signals = {'alpha','error','delta'};
 labels = {'Angle of attack [deg]','Tracking error [deg]','Elevator [deg]'};
+plotTitles = {'Angle-of-Attack Tracking','Angle-of-Attack Tracking Error','Elevator Deflection'};
 for s = 1:3
     ax = nexttile(tl,6+(s-1)*2+1,[1 2]); hold(ax,'on'); grid(ax,'on');
     if s==1
@@ -85,6 +86,7 @@ for s = 1:3
         plotData{s,j} = y; %#ok<AGROW>
     end
     xlim(ax,[0 P.tEnd]); xlabel(ax,'Simulation time [s]'); ylabel(ax,labels{s});
+    title(ax,plotTitles{s},'FontSize',12,'FontWeight','bold');
     legend(ax,'Location','southoutside','Orientation','horizontal');
     cursor(s) = xline(ax,0,'Color',[0.4 0.4 0.4],'HandleVisibility','off'); %#ok<AGROW>
 end
