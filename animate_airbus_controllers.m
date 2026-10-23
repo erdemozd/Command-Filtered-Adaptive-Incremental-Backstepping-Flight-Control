@@ -52,8 +52,8 @@ subtitle(tl,sprintf('Original airliner visual | Original Mach 2.2 plant | Pitch 
 for j = 1:2
     ax = nexttile(tl,(j-1)*3+1,[1 3]);
     hold(ax,'on'); axis(ax,'equal');
-    xlim(ax,[-22 22]); ylim(ax,[-19 19]); zlim(ax,[-7 10]);
-    view(ax,38,18); grid(ax,'on');
+    xlim(ax,[-26 26]); ylim(ax,[-24 24]); zlim(ax,[-15 15]);
+    view(ax,32,23); grid(ax,'on');
     xlabel(ax,'Body-forward display axis'); ylabel(ax,'Lateral'); zlabel(ax,'Up');
     title(ax,sprintf('%s  |  alpha RMSE %.4f deg',names{j},AlphaRMSE_deg(j)));
     body(j) = hgtransform('Parent',ax); %#ok<AGROW>
