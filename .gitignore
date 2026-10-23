@@ -8,3 +8,8 @@ matlab_crash_dump*
 results/animation/
 results/animation_run.log
 results/preview/
+# Local Python environments and reproducible validation output
+.venv/
+.python-deps/
+__pycache__/
+results/python/
