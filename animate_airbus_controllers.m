@@ -3,7 +3,7 @@ function D = animate_airbus_controllers(options)
 %   D = animate_airbus_controllers() runs the full 60 s experiment.
 %   D = animate_airbus_controllers(Visible='off',Fps=12,Speed=6)
 %   uses the same physics with faster playback. No external mesh/toolbox needed.
-%   The procedural airliner is illustrative, not an Airbus dynamics model.
+%   Original generic airliner geometry; no third-party aircraft assets.
 %   Pitch = integral(q dt); flight-path angle = pitch - alpha. Translation
 %   is omitted because the source plant has no position/altitude states.
 arguments
@@ -48,12 +48,12 @@ f = figure('Color','w','Position',[50 50 1200 760], ...
 cleanup = onCleanup(@() close(f));
 tl = tiledlayout(f,2,6,'TileSpacing','compact','Padding','compact');
 title(tl,sprintf('CABS / CIBS  |  Matched plant uncertainty: %.0f%%',100*options.Uncertainty),'FontSize',17);
-subtitle(tl,sprintf('Airbus-style visual only | Original Mach 2.2 plant | Pitch from integral of q | %.0fx playback',options.Speed));
+subtitle(tl,sprintf('Original airliner visual | Original Mach 2.2 plant | Pitch from integral of q | %.0fx playback',options.Speed));
 for j = 1:2
     ax = nexttile(tl,(j-1)*3+1,[1 3]);
     hold(ax,'on'); axis(ax,'equal');
     xlim(ax,[-26 26]); ylim(ax,[-24 24]); zlim(ax,[-15 15]);
-    view(ax,38,19); grid(ax,'on');
+    view(ax,32,23); grid(ax,'on');
     xlabel(ax,'Body-forward display axis'); ylabel(ax,'Lateral'); zlabel(ax,'Up');
     title(ax,sprintf('%s  |  alpha RMSE %.4f deg',names{j},AlphaRMSE_deg(j)));
     body(j) = hgtransform('Parent',ax); %#ok<AGROW>
@@ -123,39 +123,4 @@ info = imfinfo(gifPath);
 assert(numel(info)==numel(indices),'GIF frame count mismatch.');
 fprintf('Saved %d frames: %s\n',numel(info),gifPath);
 disp(D.metrics);
-end
-
-function elevator = airliner_mesh(parent,color)
-% Original procedural geometry: x forward, y lateral, z upward. Units are
-% visual proportions, not certified Airbus dimensions or aerodynamic data.
-x = [-20 -18 -15 -10 8 14 17 19 20];
-r = [0.1 0.7 1.4 1.9 1.9 1.75 1.3 0.7 0.05];
-a = linspace(0,2*pi,28).';
-surf(repmat(x,numel(a),1),cos(a)*r,sin(a)*r,'Parent',parent, ...
-    'FaceColor',[0.88 0.92 0.96],'EdgeColor','none');
-% Swept wings and tailplane.
-for side = [-1 1]
-    panel(parent,[6 side*1.4 0; -5 side*19 1; -9 side*19 1; -6 side*1.4 0],color);
-    panel(parent,[-11 side*1 0.5; -16 side*7 1; -18 side*7 1; -16 side*1 0.5],color);
-    % Underwing turbofan nacelle, axis aligned with the fuselage.
-    ex = [-2 0 3]; er = [1.05 1.15 0.95];
-    surf(repmat(ex,numel(a),1),side*7+cos(a)*er,-1.5+sin(a)*er, ...
-        'Parent',parent,'FaceColor',[0.68 0.75 0.82],'EdgeColor','none');
-    panel(parent,[3 side*7-0.95 -2.45; 3 side*7+0.95 -2.45; ...
-        3 side*7+0.95 -0.55; 3 side*7-0.95 -0.55],[0.13 0.18 0.23]);
-    % Passenger windows.
-    wx = -10:1.3:13;
-    line(wx,side*1.88*ones(size(wx)),0.65*ones(size(wx)), ...
-        'Parent',parent,'LineStyle','none','Marker','.','MarkerSize',7,'Color',[0.1 0.22 0.32]);
-end
-panel(parent,[-12 0 1; -18 0 8; -20 0 8; -19 0 0.5],color);
-elevator = hgtransform('Parent',parent);
-for side = [-1 1]
-    panel(elevator,[0 side*1 0; -3 side*6 0.5; -5 side*6 0.5; -4 side*1 0],[0.26 0.32 0.39]);
-end
-end
-
-function panel(parent,vertices,color)
-patch('Parent',parent,'Vertices',vertices,'Faces',1:size(vertices,1), ...
-    'FaceColor',color,'EdgeColor',color*0.7,'FaceLighting','gouraud');
 end

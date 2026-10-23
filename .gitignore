@@ -7,3 +7,4 @@ matlab_crash_dump*
 # Reproducible, local animation simulation logs
 results/animation/
 results/animation_run.log
+results/preview/
