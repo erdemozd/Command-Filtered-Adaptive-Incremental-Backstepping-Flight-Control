@@ -1,0 +1,9 @@
+# MATLAB / Simulink build caches and local session files
+slprj/
+*.slxc
+*.asv
+*.m~
+matlab_crash_dump*
+# Reproducible, local animation simulation logs
+results/animation/
+results/animation_run.log
