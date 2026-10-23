@@ -8,7 +8,11 @@ MATLAB and Simulink experiments comparing command-filtered adaptive backstepping
 
 The GIF shows freshly simulated responses over **60 seconds**, played at **6x speed**. Both controllers use the same physical plant with **30% maximum nonuniform pitch-parameter uncertainty**. CABS starts with nominal parameter estimates and adapts; CIBS retains nominal control effectiveness and uses measured pitch acceleration.
 
-The airliner is **original procedural geometry** with a generic modern narrow-body silhouette: a smooth fuselage, swept wings and winglets, twin turbofan nacelles, cockpit glazing, and cabin windows. No third-party aircraft mesh, manufacturer drawings, logos, or airline liveries are included. It is not an official Airbus or Boeing asset. The underlying project plant runs at **Mach 2.2**. It contains angle of attack and pitch rate, with no roll, yaw, position, or altitude dynamics. Displayed pitch is reconstructed as `cumtrapz(t,q)` with zero initial pitch; the green velocity-direction arrow uses `gamma = pitch - alpha`. The airframes remain at the display origin. Elevator motion follows the applied command without visual amplification.
+The airliner is **original procedural geometry** with proportions inspired by modern narrow-body aircraft, including the A320: a rounded nose, smooth fuselage, curved airfoil wings and winglets, wing-root fairings, twin turbofan nacelles with recessed fans, six framed cockpit panes, cabin windows, antennas, and navigation lights. No third-party aircraft mesh or manufacturer drawings are included. It is not an official Airbus or Boeing asset. [Detailed aircraft preview](docs/media/airliner_detail.png).
+
+The requested academic livery uses TU Delft's official logo artwork from its [identity resources](https://www.tudelft.nl/en/tu-delft-corporate-design). The logo remains TU Delft's property and is excluded from the MIT license; see the [artwork notice](assets/branding/NOTICE.md). The livery does not imply university or manufacturer endorsement.
+
+The underlying project plant runs at **Mach 2.2**. It contains angle of attack and pitch rate, with no roll, yaw, position, or altitude dynamics. Displayed pitch is reconstructed as `cumtrapz(t,q)` with zero initial pitch; the green velocity-direction arrow uses `gamma = pitch - alpha`. The airframes remain at the display origin. Elevator motion follows the applied command without visual amplification.
 
 The lower plots show angle-of-attack tracking, tracking error, and elevator deflection. Faint curves show the complete response; solid curves progress with the animation. [Static preview](docs/media/controller_comparison.png) · [Numeric metrics](docs/media/controller_metrics.csv).
 
@@ -140,4 +144,4 @@ Both controllers share backstepping gains `c1 = 4`, `c2 = 8`, a second-order com
 
 ## License
 
-Released under the [MIT License](LICENSE).
+Project code and original aircraft geometry are released under the [MIT License](LICENSE). TU Delft logo artwork is excluded; see [assets/branding/NOTICE.md](assets/branding/NOTICE.md).
